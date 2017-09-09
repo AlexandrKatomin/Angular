@@ -1,6 +1,5 @@
 import {Contact} from './contact';
- import {Topic} from './topic';
-//import {Topic} from '../services/send-message.service';
+import {Topic} from './topic';
 
 export class Message{
     

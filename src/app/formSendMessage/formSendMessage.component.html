@@ -1,5 +1,3 @@
-
-
         <form id="form"   #sendForm="ngForm"  >
             <h2>Напишите нам</h2>
           
@@ -37,9 +35,8 @@
                     <button type="submit"
                      [disabled]="messagePhone.invalid || messageText.invalid || topic.invalid || nameContact2.invalid || email2.invalid"
                       (click)="sendMessage(); sendForm.reset()" >Отправить</button>  
-            </fieldset>
+            </fieldset>         
            
-            {{message.contact.name}} {{message.contact.email}} {{message.contact.phone}}  {{message.textOfMessage}}
         </form>
 
  
