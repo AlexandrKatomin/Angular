@@ -1,56 +1,47 @@
         <form id="form"   #sendForm="ngForm"   >
             <h2>Напишите нам</h2>
             <div class="form-group">
-            <div class='fieldset'>  
+            <fieldset>  
                              
                  <div class="form-row">
                      <label for="name">Ваше имя</label>            
                      <input id="name" class="form-control" type="text" name="nameContact" [(ngModel)]="message.contact.name" #nameContact2="ngModel" required />
-                     <div  class="rigth-label" [hidden]="nameContact2.valid || nameContact2.untouched" class="alert alert-danger">
+                 </div>
+                                 <div  class="rigth-label" [hidden]="nameContact2.valid || nameContact2.untouched" class="alert alert-danger">
                                                 Не указано имя
-                  </div>  
-                  </div>                        
+                  </div>                          
                    
                   <div class="form-row">
                     <label for="email">Ваш Email</label>                     
                     <input class="form-control" type="text" name="email"  [(ngModel)]="message.contact.email"   #email2="ngModel"
                     required email  />  
-                  
+                  </div>
                   <div [hidden]="email2.valid || email2.untouched" class="alert alert-danger">
                         Некорректный email
                   </div>  
-                  </div>
-
-
                   <div class="form-row">  
                     <label for="phone">Ваш телефон</label>
                     <input [textMask]="{mask: PHONE_MASK}"  class="form-control" type="text" name="phone" [(ngModel)]="message.contact.phone"   #messagePhone="ngModel" 
                         required  [pattern]="PHONE_PATTERN" />
-                  
-                  <div [hidden]="messagePhone.valid || messagePhone.untouched" class="alert alert-danger">Некорректный номер телефона </div>
-                  
                   </div>
-
+                  <div [hidden]="messagePhone.valid || messagePhone.untouched" class="alert alert-danger">Некорректный номер телефона </div>
                   <div class="form-row">
                     <label >Тема</label>                
-                    <select class='select'  name="topics2"  ng-invalid  [(ngModel)]="message.topic" #topic="ngModel" required>                  
+                    <select   name="topics2"  ng-invalid  [(ngModel)]="message.topic" #topic="ngModel" required>                  
                         <option *ngFor="let topic of topics2" [ngValue]="topic">{{ topic.nameOfTopic }}</option>
                     </select>    
-                 
-                  <div [hidden]="topic.valid || topic.untouched" class="alert alert-danger">Не введено сообщение</div>
                   </div>
-                 
+                  <div [hidden]="topic.valid || topic.untouched" class="alert alert-danger">Не введено сообщение</div>
                   <div class="form-row">
                     <label for="text"> Сообщение:</label>
                     <textarea name="textMess"  cols="30" rows="4" [(ngModel)]="message.textOfMessage" #messageText="ngModel" required></textarea>
-                  
-                  <div [hidden]="messageText.valid || messageText.untouched" class='label-select'>Не введено сообщение</div>
-                  </div>  
+                  </div>
+                  <div [hidden]="messageText.valid || messageText.untouched" class="alert alert-danger">Не введено сообщение</div>
+                          
                     <button type="submit"
                      [disabled]="messagePhone.invalid || messageText.invalid || topic.invalid || nameContact2.invalid || email2.invalid"
-                      (click)="sendMessage(); sendForm.reset()">Отправить</button>  
-                  
-                </div>   
+                      (click)="sendMessage(); sendForm.reset()" >Отправить</button>  
+            </fieldset>   
             </div>      
            
         </form>

@@ -4,6 +4,7 @@ import { NgForm} from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import 'rxjs/add/operator/catch';
 
+
 import {Message} from '../shared/message';
 import {Contact} from '../shared/contact';
 import {SendMessageService} from '../services/send-message.service';
@@ -14,7 +15,9 @@ import {Topic} from '../shared/topic';
     moduleId: module.id,
     selector: 'app-form-send-message',
     templateUrl: 'formSendMessage.component.html',
-    styleUrls:['formSendMessage.component.css'],
+    styleUrls:[   
+    'formSendMessage.component.css' 
+],
     providers:[SendMessageService]
 })
 export class FormSendMessageComponent implements OnInit {
