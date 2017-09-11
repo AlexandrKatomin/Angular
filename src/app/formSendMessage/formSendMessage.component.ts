@@ -27,13 +27,45 @@ export class FormSendMessageComponent implements OnInit {
         PHONE_PATTERN = /\(\d{3}\)\-\d{3}\-\d{4}/;
         PHONE_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         recevedMessage: any;
+
+        isImageLoading: boolean;
+        yourImageUrl: string;
+        imageToShow: any;
+        
         constructor(private sendService: SendMessageService) { }
         sendMessage() {
             console.log('message was send');
              this.sendService.sendMessage(this.message).subscribe((data) => {this.recevedMessage = data;});
         }
         ngOnInit() {           
+            this.getImageFromService();
             this.sendService.getArrayTopic().subscribe((data)=>this.topics2=data);
           //  this.topics2 = this.sendService.getArrayTopic2(); this is uses mock object
-        }      
+        }
+
+        
+        
+        createImageFromBlob(image: Blob) {
+               let reader = new FileReader();
+               reader.addEventListener("load", () => {
+                  this.imageToShow = reader.result;
+                  console.log('ok');
+               }, false);
+        
+               if (image) {
+                console.log('ok2');
+                  reader.readAsDataURL(image);
+               }
+        }
+        
+        getImageFromService() {
+            this.isImageLoading = true;
+            this.sendService.getImage().subscribe(data => {
+              this.createImageFromBlob(data);
+              this.isImageLoading = false;
+            }, error => {
+              this.isImageLoading = false;
+              console.log(error);
+            });
+      }
     }

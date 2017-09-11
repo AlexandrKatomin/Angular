@@ -3,7 +3,7 @@ import {Message} from '../shared/message';
 import {Contact} from '../shared/contact';
 import {Http,URLSearchParams} from '@angular/http';
 
-import {Response, Headers, RequestOptions} from '@angular/http';
+import {Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
 
 import {HttpClientModule, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
@@ -18,6 +18,8 @@ export class SendMessageService{
     url:string = 'http://localhost:5000/api/topic/';
     url2:string = 'http://localhost:5000/api/message/';
     values: Topic[] = [{id: '3', nameOfTopic: 'топик'} ];
+    imageUrl: string = 'http://localhost:5000/api/capcha2';
+    
 
     constructor(private http: Http){}
 
@@ -30,7 +32,7 @@ export class SendMessageService{
                         .map((resp:Response)=>{                           
                             let usersList = resp.json();                            
                             let users :Topic[] = [];
-                            for(let index in usersList){                               
+                            for(let index in usersList){   
                                 console.log(usersList[index]);
                                 let user = usersList[index];
                                 users.push({id: user.id, nameOfTopic: user.nameOfTopic});
@@ -48,4 +50,20 @@ export class SendMessageService{
                             .map((resp:Response)=>resp.json())
                             .catch((error:any) =>{   return Observable.throw(error);}); 
     }
+
+    getImage(): Observable<File> {
+        return this.http
+            .get(this.imageUrl, { responseType: ResponseContentType.Blob })
+            .map((res: Response) => res.blob());
+    }
+    
+    getImage2(): Observable<File> {
+        let headers = new Headers({'Content-Type':  'image/jpeg'});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http
+            .get(this.imageUrl,options)
+            .map((res: Response) => res.blob());
+    }
+
 }
