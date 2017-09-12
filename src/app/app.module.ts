@@ -1,15 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AppComponent } from './app.component';
+
 import { TextMaskModule } from 'angular2-text-mask';
 
 import {HttpModule} from '@angular/http';
 import {FormSendMessageComponent} from './formSendMessage/formSendMessage.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
+  declarations: [    
     FormSendMessageComponent
   ],
   imports: [
@@ -19,8 +18,7 @@ import {FormSendMessageComponent} from './formSendMessage/formSendMessage.compon
     TextMaskModule
   ],
   providers: [],
-  bootstrap: [
-    AppComponent,
+  bootstrap: [    
     FormSendMessageComponent
   ]
 })

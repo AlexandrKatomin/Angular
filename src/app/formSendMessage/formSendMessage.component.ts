@@ -21,7 +21,7 @@ import {Topic} from '../shared/topic';
     providers:[SendMessageService]
 })
 export class FormSendMessageComponent implements OnInit {
-       
+        title = 'test';
         message: Message = new Message(new Contact('', '', ''), new Topic( '', ''), '');       
         topics2: Topic[]= [];
         PHONE_PATTERN = /\(\d{3}\)\-\d{3}\-\d{4}/;
@@ -37,7 +37,8 @@ export class FormSendMessageComponent implements OnInit {
             console.log('message was send');
              this.sendService.sendMessage(this.message).subscribe((data) => {this.recevedMessage = data;});
         }
-        ngOnInit() {           
+        ngOnInit() {     
+            console.log(" form initialize");      
             this.getImageFromService();
             this.sendService.getArrayTopic().subscribe((data)=>this.topics2=data);
           //  this.topics2 = this.sendService.getArrayTopic2(); this is uses mock object
