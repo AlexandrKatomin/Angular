@@ -4,12 +4,11 @@ import { NgForm} from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import 'rxjs/add/operator/catch';
 
-
 import {Message} from '../shared/message';
 import {Contact} from '../shared/contact';
 import {SendMessageService} from '../services/send-message.service';
 import {Topic} from '../shared/topic';
-
+import {CookieService} from 'angular2-cookie/core';
 
 @Component({
     moduleId: module.id,
@@ -18,7 +17,11 @@ import {Topic} from '../shared/topic';
     styleUrls:[   
     'formSendMessage.component.css' 
 ],
-    providers:[SendMessageService]
+    providers:[
+      SendMessageService,
+      CookieService
+       
+    ]
 })
 export class FormSendMessageComponent implements OnInit {
         title = 'test';
@@ -28,17 +31,24 @@ export class FormSendMessageComponent implements OnInit {
         PHONE_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         recevedMessage: any;
 
+        captcha: string='';
+
         isImageLoading: boolean;
         yourImageUrl: string;
         imageToShow: any;
+
+        isTrue: boolean= true;
+       
+         
         
-        constructor(private sendService: SendMessageService) { }
+        constructor(          private sendService: SendMessageService) { }
         sendMessage() {
             console.log('message was send');
              this.sendService.sendMessage(this.message).subscribe((data) => {this.recevedMessage = data;});
         }
         ngOnInit() {     
-            console.log(" form initialize");      
+            console.log(" form initialize");    
+            
             this.getImageFromService();
             this.sendService.getArrayTopic().subscribe((data)=>this.topics2=data);
           //  this.topics2 = this.sendService.getArrayTopic2(); this is uses mock object
@@ -58,6 +68,7 @@ export class FormSendMessageComponent implements OnInit {
                   reader.readAsDataURL(image);
                }
         }
+       
         
         getImageFromService() {
             this.isImageLoading = true;
@@ -68,5 +79,18 @@ export class FormSendMessageComponent implements OnInit {
               this.isImageLoading = false;
               console.log(error);
             });
+      }
+      sendMessage2() {
+        this.executeChech();
+       
+
+      }
+      executeChech(){
+        let response;
+         this.sendService.executeCheck(this.captcha).subscribe((data)=>{
+          this.isTrue=data;
+          if(this.isTrue) this.sendMessage();
+         console.log(this.isTrue);
+         }); 
       }
     }
