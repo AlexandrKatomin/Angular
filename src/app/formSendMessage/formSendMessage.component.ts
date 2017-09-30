@@ -8,7 +8,6 @@ import {Message} from '../shared/message';
 import {Contact} from '../shared/contact';
 import {SendMessageService} from '../services/send-message.service';
 import {Topic} from '../shared/topic';
-import {CookieService} from 'angular2-cookie/core';
 
 @Component({
     moduleId: module.id,
@@ -17,14 +16,9 @@ import {CookieService} from 'angular2-cookie/core';
     styleUrls:[   
     'formSendMessage.component.css' 
 ],
-    providers:[
-      SendMessageService,
-      CookieService
-       
-    ]
+    providers:[ SendMessageService ]
 })
-export class FormSendMessageComponent implements OnInit {
-        title = 'test';
+export class FormSendMessageComponent implements OnInit {       
         message: Message = new Message(new Contact('', '', ''), new Topic( '', ''), '');       
         topics2: Topic[]= [];
         PHONE_PATTERN = /\(\d{3}\)\-\d{3}\-\d{4}/;
@@ -32,43 +26,37 @@ export class FormSendMessageComponent implements OnInit {
         recevedMessage: any;
 
         captcha: string='';
-
         isImageLoading: boolean;
         yourImageUrl: string;
         imageToShow: any;
+        isTrue: boolean= false; 
 
-        isTrue: boolean= true;
-       
-         
-        
-        constructor(          private sendService: SendMessageService) { }
+        constructor(private sendService: SendMessageService) { }
+
         sendMessage() {
+          //this.isTrue=this.executeChech();
+        //  console.log(this.isTrue);
+         // if(this.isTrue) {
             console.log('message was send');
-             this.sendService.sendMessage(this.message).subscribe((data) => {this.recevedMessage = data;});
-        }
-        ngOnInit() {     
-            console.log(" form initialize");    
-            
-            this.getImageFromService();
-            this.sendService.getArrayTopic().subscribe((data)=>this.topics2=data);
-          //  this.topics2 = this.sendService.getArrayTopic2(); this is uses mock object
+            this.sendService.sendMessage(this.message).subscribe((data) => {this.recevedMessage = data;});
+         // }
+          console.log('is=' + this.isTrue);
         }
 
-        
-        
+        ngOnInit() {     
+            this.getImageFromService();
+            this.sendService.getArrayTopic().subscribe((data)=>this.topics2=data);          
+        }
+
         createImageFromBlob(image: Blob) {
                let reader = new FileReader();
                reader.addEventListener("load", () => {
-                  this.imageToShow = reader.result;
-                  console.log('ok');
-               }, false);
-        
-               if (image) {
-                console.log('ok2');
+                  this.imageToShow = reader.result;                  
+               }, false);        
+               if (image) {                
                   reader.readAsDataURL(image);
                }
         }
-       
         
         getImageFromService() {
             this.isImageLoading = true;
@@ -80,17 +68,22 @@ export class FormSendMessageComponent implements OnInit {
               console.log(error);
             });
       }
+
       sendMessage2() {
         this.executeChech();
        
 
       }
-      executeChech(){
+      executeChech(): boolean {
         let response;
          this.sendService.executeCheck(this.captcha).subscribe((data)=>{
           this.isTrue=data;
+          response=data;
+         // console.log(data);
           if(this.isTrue) this.sendMessage();
          console.log(this.isTrue);
+         console.log(response);
          }); 
+         return response;
       }
     }

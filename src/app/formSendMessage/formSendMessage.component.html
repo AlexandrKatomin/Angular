@@ -1,15 +1,12 @@
         <form id="form"   #sendForm="ngForm"   >
-            <h2>Напишите нам</h2>
-           
-            <div class='fieldset form-group'>  
-                  
-              
+            <h2>Напишите нам</h2>           
+            <div class='fieldset form-group'> 
                  <div class="form-row">
                      <label for="name">Ваше имя</label>            
                      <input id="name" class="form-row-input" type="text" name="nameContact" [(ngModel)]="message.contact.name" #nameContact2="ngModel" required />
                      <div  class="rigth-label" [hidden]="nameContact2.valid || nameContact2.untouched" class="alert alert-danger">
                                                 Не указано имя
-                  </div>  
+                  </div> 
                   </div>                        
                    
                   <div class="form-row">
@@ -50,24 +47,17 @@
                   <div class="form-row">
                       <label for="text">Цифры:</label>
                       <input class="input-captcha" type="text" name="phone" [(ngModel)]="captcha"   #captca="ngModel" 
-                      required />
-                                       
-                                        
-                    <img [src]="imageToShow" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">
-                    <ng-template #noImageFound>
+                        required />                                          
+                      <img [src]="imageToShow" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">
+                        <ng-template #noImageFound>
                       <img src="fallbackImage.png" alt="Fallbackimage">
-                    </ng-template>
-                  
+                    </ng-template>                  
                   </div>                 
                 
                     <button type="submit"
                      [disabled]="messagePhone.invalid || messageText.invalid || message.topic.nameOfTopic == '' || nameContact2.invalid || email2.invalid"
-                      (click)="sendMessage2()">Отправить</button>  
+                      (click)="sendMessage()">Отправить</button>  
               </div>   
-             
-              
-                 
-           
         </form>
 
  
